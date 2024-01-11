@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Text to speech converter</title>
+        <link rel="stylesheet" href="styl.css">
+        <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+        <script src="https://kit.fontawesome.com/a33776bbdd.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="hero">
+           <h1><span class="one">Text</span> To <span class="two">Speech</span> Converter</h1>
+           <textarea placeholder="Write anything area...."></textarea> 
+           <div class="row">
+            <select></select>
+            <button><i class="fa-solid fa-play"></i> Listen</button>
+           </div>
+        </div>
+    </body>
+    <script>
+        let speech = new SpeechSynthesisUtterance();
+        let voices = [];
+        let voiceSelect = document.querySelector('select');
+        window.speechSynthesis.onvoiceschanged = () =>{
+            voices = window.speechSynthesis.getVoices();
+            speech.voice = voices[0];
+
+            voices.forEach((voice,i)=>(voiceSelect.options[i]=new Option(voice.name,i)));
+        }
+        document.querySelector('button').addEventListener('click',() =>{
+            speech.text = document.querySelector('textarea').value;
+            window.speechSynthesis.speak(speech);
+        })
+        voiceSelect.addEventListener('change',()=>{
+            speech.voice = voices[voiceSelect.value];
+        })
+    </script>
+</html>
